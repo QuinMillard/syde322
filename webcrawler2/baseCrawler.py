@@ -1,8 +1,8 @@
-import abc
+from abc import ABC, abstractclassmethod
 
-class BaseCrawler(abc.ABC):
+class BaseCrawler(ABC):
     
-    @abc.abstractmethod
+    @abstractclassmethod
     def crawl(self):
         # crawl the site and insert the the data gathered from in the database
         pass
