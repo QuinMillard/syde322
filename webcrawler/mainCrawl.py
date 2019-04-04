@@ -16,7 +16,5 @@ zappos_shoe_crawler.crawl(data)
 zappos_shorts_crawler = ZapposClothesCrawler()
 zappos_shorts_crawler.crawl(data)
 
-
-
 nike_clothes_crawler = NikeClothesCrawler()
 nike_clothes_crawler.crawl(data)
