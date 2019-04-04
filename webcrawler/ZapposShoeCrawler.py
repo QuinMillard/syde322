@@ -37,7 +37,7 @@ class ZapposShoeCrawler(BaseCrawler):
                 self.__email_client.sendErrorMessage(__message)
 
             if len(self.__bad_URL) > 0:
-                __bad_URL_string = self.get_string_from_list(self.__bad_URL)
+                __bad_URL_string = self.__get_string_from_list(self.__bad_URL)
                 __message = f'exception raised in the following items: {__bad_URL_string}'
                 self.__email_client.sendErrorMessage(__message)
 
@@ -73,7 +73,7 @@ class ZapposShoeCrawler(BaseCrawler):
                 __clothing_info = ClothingInfo('Zappos', link)
                 self.__bad_URL.append(__clothing_info.to_string())
     
-    def get_string_from_list(self, list):
+    def __get_string_from_list(self, list):
         __return_string = ""
         for item in list:
             __return_string = __return_string + item
