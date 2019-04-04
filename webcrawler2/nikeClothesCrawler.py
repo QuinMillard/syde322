@@ -3,14 +3,15 @@ import re
 from baseCrawler import BaseCrawler
 from emailClient import EmailClient
 from clothingInfo import ClothingInfo
+import random
 
-class NikeShoeCrawler(BaseCrawler):
-    def crawl(self,request_wrapper):
+class NikeClothesCrawler(BaseCrawler):
+    def crawl(self, request_wrapper):
         self.__bad_URL = []
         self.__browser = mechanicalsoup.StatefulBrowser()
         __link_regex = r'\<a href\=\"([\w\:\/]*www\.nike\.com\/ca\/t\/[\w\d\/\-]*)\"\>'
         self.__email_client = EmailClient()
-        __siteurl = "https://store.nike.com/ca/en_gb/pw/mens-shoes/7puZoi3?intpromo=MLP-MEN%3ATOPNAV%3ASU18%3AMNSXCAT%3ASHOPMEN%3ASHOES&ipp=120"
+        __siteurl = "https://store.nike.com/ca/en_gb/pw/mens-clothing/1mdZ7pu?intpromo=MLP-MEN%3ATOPNAV%3ASU18%3AMNSXCAT%3ASHOPMEN%3ACLOTHING&ipp=120"
    
        
         if(str(self.__browser.open(__siteurl)) == "<Response [200]>"):
@@ -20,22 +21,22 @@ class NikeShoeCrawler(BaseCrawler):
             self.__links = set(__links_to_search.findall(__htmlContents))
             
             if len(self.__links) == 0:
-                __message = f"The link regex {__link_regex} did not come up with any values at the url {__siteurl}"
+                __message = f'The link regex {__link_regex} did not come up with any values at the url {__siteurl}'
                 print(__message)
                 self.__email_client.sendMessage(__message)
             self.__crawl_item_links(request_wrapper)
         else:
-            __message = f"exception raised when opening site: {__siteurl}"
+            __message = f'exception raised when opening site: {__siteurl}'
             print(__message)
             self.__email_client.sendMessage(__message)
 
         if len(self.__bad_URL) > 0:
             __bad_URL_string = self.get_string_from_list(self.__bad_URL)
-            __message = f"exception raised in the following items: {__bad_URL_string}"
+            __message = f'exception raised in the following items: {__bad_URL_string}'
             self.__email_client.sendMessage(__message)
 
             
-    def __crawl_item_links(self,request_wrapper):
+    def __crawl_item_links(self, request_wrapper):
         __price_regex = r'CAD" data-react-helmet="true" property="og:price:currency"/><meta content=\"([\d\.]+)'
         __item_regex = r'\-helmet\=\"true\" name\=\"description\"\/><meta content\=\"([^\"]*)'
         __image_regex = r'image\" data-react-helmet=\"true\" href=\"([^\"]*)'
@@ -57,7 +58,7 @@ class NikeShoeCrawler(BaseCrawler):
                     __clothing_info = ClothingInfo('Nike', link, __items[0],  __prices[0], __images[2])
                     print(__clothing_info.to_string())
                     response = request_wrapper.insert_into_db(__clothing_info.to_object())
-                    print(response)    
+                    print(response)
                 else:
                     __clothing_info = ClothingInfo('Nike', link, __items, __prices, __images)
                     self.__bad_URL.append(__clothing_info.to_string())

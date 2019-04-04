@@ -17,6 +17,7 @@ class EmailClient():
             server.starttls(context=self.__context) # Secure the connection
             server.ehlo() # Can be omitted
             server.login(self.__sender_email, self.__password)
+            message = f'\n{message}'
             server.sendmail(self.__sender_email, self.__receiver_email, message)
         except Exception as e:
             # Print any error messages to stdout

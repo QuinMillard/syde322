@@ -39,4 +39,7 @@ class ClothingInfo:
         return self.__image_link
 
     def to_string(self):
-        return f"Website: {self.__website}, Item: {self.__item}, Item link: {self.__image_link}, Price: {self.__price}, Image link: {self.__image_link}"
+        return f"Website: {self.__website}, Item: {self.__item}, Item link: {self.__item_link}, Price: {self.__price}, Image link: {self.__image_link}"
+
+    def to_object(self):
+        return {'item':self.__item, 'price': self.__price, 'website': self.__website, 'image_link': self.__image_link, 'item_link': self.__item_link}
