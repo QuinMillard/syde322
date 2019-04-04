@@ -26,7 +26,9 @@ class ZapposShoeCrawler(BaseCrawler):
                     self.__email_client.sendErrorMessage(__message)
                 elif len(self.__links) == 0:
                     break
+
                 self.__crawl_item_links(request_wrapper)
+                
                 __siteurl = f"https://www.zappos.com/nike-shoes/.zso?t=nike%20shoes&p={__page}"
                 __page = __page + 1
             else:
@@ -44,7 +46,7 @@ class ZapposShoeCrawler(BaseCrawler):
         __price_regex = r'span class=\"_1q0kwWbBMG.*\">(\$\d\d\.\d\d)'
         __item_regex = r'itemprop\=\"name\">([\w\d\s\-]*)'
         __image_regex = r'\"(https:\/\/m\.media\-amazon\.com\/images[\w\d\/\-\.\+]*\_SX480\_\.jpg)\"\/><\/button><\/div><button\sclass\='
-        print(len(self.__links))
+        print(len(self.__links), ' number of items found')
         for link in self.__links:
             if(str(self.__browser.open(link)) == "<Response [200]>"):
                 __htmlContents = str(self.__browser.get_current_page().findAll(True))
@@ -58,7 +60,6 @@ class ZapposShoeCrawler(BaseCrawler):
                 __nike_image = re.compile(__image_regex)
                 __images = __nike_image.findall(__htmlContents)
                 print(link)
-                # print(len(__images),len(__prices),len(__items))
 
                 if(len(__images) > 0 and len(__prices) > 0 and len(__items) > 1):
                     __clothing_info = ClothingInfo('Zappos', link, __items[0] + " " + __items[1],  __prices[0][1:], __images[0])

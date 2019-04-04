@@ -23,7 +23,9 @@ class NikeShoeCrawler(BaseCrawler):
                 __message = f"The link regex {__link_regex} did not come up with any values at the url {__siteurl}"
                 print(__message)
                 self.__email_client.sendErrorMessage(__message)
+
             self.__crawl_item_links(request_wrapper)
+
         else:
             __message = f"exception raised when opening site: {__siteurl}"
             print(__message)
@@ -39,7 +41,7 @@ class NikeShoeCrawler(BaseCrawler):
         __price_regex = r'CAD" data-react-helmet="true" property="og:price:currency"/><meta content=\"([\d\.]+)'
         __item_regex = r'\-helmet\=\"true\" name\=\"description\"\/><meta content\=\"([^\"]*)'
         __image_regex = r'image\" data-react-helmet=\"true\" href=\"([^\"]*)'
-        print(len(self.__links))
+        print(len(self.__links), ' number of items found')
         for link in self.__links:
             if(str(self.__browser.open(link)) == "<Response [200]>"):
                 __htmlContents = str(self.__browser.get_current_page().findAll(True))
