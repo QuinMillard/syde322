@@ -10,7 +10,7 @@ class EmailClient():
         # Create a secure SSL context
         self.__context = ssl.create_default_context()
 
-    def sendMessage(self, message):
+    def sendMessage(self, message, email="swagifywebscrapererrors@gmail.com"):
         try:
             server = smtplib.SMTP(self.__smtp_server,self.__port)
             server.ehlo() # Can be omitted
