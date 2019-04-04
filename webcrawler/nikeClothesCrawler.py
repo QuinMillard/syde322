@@ -23,17 +23,17 @@ class NikeClothesCrawler(BaseCrawler):
             if len(self.__links) == 0:
                 __message = f'The link regex {__link_regex} did not come up with any values at the url {__siteurl}'
                 print(__message)
-                self.__email_client.sendMessage(__message)
+                self.__email_client.sendErrorMessage(__message)
             self.__crawl_item_links(request_wrapper)
         else:
             __message = f'exception raised when opening site: {__siteurl}'
             print(__message)
-            self.__email_client.sendMessage(__message)
+            self.__email_client.sendErrorMessage(__message)
 
         if len(self.__bad_URL) > 0:
             __bad_URL_string = self.get_string_from_list(self.__bad_URL)
             __message = f'exception raised in the following items: {__bad_URL_string}'
-            self.__email_client.sendMessage(__message)
+            self.__email_client.sendErrorMessage(__message)
 
             
     def __crawl_item_links(self, request_wrapper):

@@ -15,6 +15,11 @@ class RequestWrapper:
         json_rsp = json.loads(resp.content)
         self.__token = json_rsp['token']
         self.__email_client = EmailClient()
+
+        if resp.status_code != 201 or resp.status_code != 200:
+            __message = f'Error inserting into DB from due to authentication with code {resp.status_code}'
+            self.__email_client.sendErrorMessage(__message)
+            
         
     def insert_into_db(self, item_object):
         querystring = {"name":item_object['item'],"price":item_object['price'],"website_name":item_object['website'] ,"image_url":item_object["image_link"],"url":item_object['item_link']}
@@ -30,8 +35,9 @@ class RequestWrapper:
             # self.__email_client.sendMessage(__message)
             
             for email in __emails:
-                __message = f'One of your Items on your wishlist is on sale! {item_object["item"]} for the price {item_object["price"]}'
+                __message = f'Subject: Wishlist Item Sale!\n\nOne of your Items on your wishlist is on sale! {item_object["item"]} for the price {item_object["price"]}'
                 self.__email_client.sendMessage(__message, email)
-
-
+        elif response.status_code != 201 or response.status_code != 200:
+            __message = f'Error inserting into DB from {item_object} with code {response.status_code}'
+            self.__email_client.sendErrorMessage(__message, email)
         return response
