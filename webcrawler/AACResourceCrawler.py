@@ -1,16 +1,16 @@
 import mechanicalsoup
 import re
 from baseCrawler import BaseCrawler
-from emailClient import EmailClient
+# from emailClient import EmailClient
 from clothingInfo import ClothingInfo
 import random
 
-class NikeClothesCrawler(BaseCrawler):
+class AACResourceCrawler(BaseCrawler):
     def crawl(self, request_wrapper):
         self.__bad_URL = []
         self.__browser = mechanicalsoup.StatefulBrowser()
         __link_regex = r'\<a href\=\"([\w\:\/]*www\.nike\.com\/ca\/t\/[\w\d\/\-]*)\"\>'
-        self.__email_client = EmailClient()
+        # self.__email_client = EmailClient()
         __siteurl = "https://store.nike.com/ca/en_gb/pw/mens-clothing/1mdZ7pu?intpromo=MLP-MEN%3ATOPNAV%3ASU18%3AMNSXCAT%3ASHOPMEN%3ACLOTHING&ipp=120"
    
        
@@ -23,19 +23,19 @@ class NikeClothesCrawler(BaseCrawler):
             if len(self.__links) == 0:
                 __message = f'The link regex {__link_regex} did not come up with any values at the url {__siteurl}'
                 print(__message)
-                self.__email_client.sendErrorMessage(__message)
+                # self.__email_client.sendErrorMessage(__message)
 
             self.__crawl_item_links(request_wrapper)
 
         else:
             __message = f'exception raised when opening site: {__siteurl}'
             print(__message)
-            self.__email_client.sendErrorMessage(__message)
+            # self.__email_client.sendErrorMessage(__message)
 
         if len(self.__bad_URL) > 0:
             __bad_URL_string = self.__get_string_from_list(self.__bad_URL)
             __message = f'exception raised in the following items: {__bad_URL_string}'
-            self.__email_client.sendErrorMessage(__message)
+            # self.__email_client.sendErrorMessage(__message)
 
             
     def __crawl_item_links(self, request_wrapper):
