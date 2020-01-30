@@ -1,1 +1,1 @@
-/webcrawler/__pycache__/
+webcrawler/__pycache__/
