@@ -26,19 +26,21 @@ class RequestWrapper:
         response = requests.post('http://34.73.210.226/api/item', params=querystring, auth=HTTPBasicAuth(self.__token, None))
         __response = json.loads(response.content)
         
-        if response.status_code == 409 and float(__response['price']) >= float(item_object['price']): # checks if item is duplicate then if it is on sale
+        if response.status_code == 409 and float(__response['price']) > float(item_object['price']): # checks if item is duplicate then if it is on sale
             new_resp = requests.put(f'http://34.73.210.226/api/item/{__response["item_id"]}?price={item_object["price"]}')
             __new_resp = json.loads(new_resp.content)
             __emails = __new_resp['emails'] 
-            __message = f'Subject: Wishlist Item Sale!\n\nOne of your Items on your wishlist is on sale! {item_object["item"]} for the price {item_object["price"]}'
-            self.__email_client.sendMessage(__message)
+
+            # uncomment to test email
+            # __message = f'Subject: Wishlist Item Sale!\n\nOne of your Items on your wishlist is on sale! {item_object["item"]} for the price {item_object["price"]}'
+            # self.__email_client.sendMessage(__message)
             
             for email in __emails:
                 __message = f'Subject: Wishlist Item Sale!\n\nOne of your Items on your wishlist is on sale! {item_object["item"]} for the price {item_object["price"]}'
                 self.__email_client.sendMessage(__message, email)
 
-        elif response.status_code != 201 and response.status_code != 200: #sends an error email if the status code returned is not expected
+        elif response.status_code != 201 and response.status_code != 200 and response.status_code != 409: #sends an error email if the status code returned is not expected
             __message = f'Error inserting into DB from {item_object} with code {response.status_code}'
-            self.__email_client.sendErrorMessage(__message, email)
+            self.__email_client.sendErrorMessage(__message)
 
         return response

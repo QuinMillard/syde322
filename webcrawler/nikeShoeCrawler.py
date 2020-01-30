@@ -10,7 +10,7 @@ class NikeShoeCrawler(BaseCrawler):
         self.__browser = mechanicalsoup.StatefulBrowser()
         __link_regex = r'\<a href\=\"([\w\:\/]*www\.nike\.com\/ca\/t\/[\w\d\/\-]*)\"\>'
         self.__email_client = EmailClient()
-        __siteurl = "https://store.nike.com/ca/en_gb/pw/mens-shoes/7puZoi3?intpromo=MLP-MEN%3ATOPNAV%3ASU18%3AMNSXCAT%3ASHOPMEN%3ASHOES&ipp=120"
+        __siteurl = "https://praacticalaac.org/"
    
        
         if(str(self.__browser.open(__siteurl)) == "<Response [200]>"):
