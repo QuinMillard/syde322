@@ -33,7 +33,7 @@ pyOpenSSL==19.0.0
 pyserial==3.4
 PyYAML==3.13
 queuelib==1.5.0
-Scrapy==1.6.0
+Scrapy==1.8.2
 serial==0.0.70
 service-identity==18.1.0
 six==1.12.0
